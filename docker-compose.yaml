@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  back-end:
+    build: ./back-end
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-network
+      - frontend-network
+  front-end:
+    build: ./front-end
+    ports:
+      - "4200:4200"
+    networks:
+      - frontend-network
+  postgres:
+    image: postgres:12.17-alpine3.19
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "PactoPostgres"
+    networks:
+      - backend-network
+volumes:
+  postgres_data:
+    driver: local
+networks:
+  frontend-network:
+    driver: bridge
+  backend-network:
+    driver: bridge
