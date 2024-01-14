@@ -11,18 +11,18 @@ import org.springframework.security.core.GrantedAuthority;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "authority")
 @Entity
+@Table(name = "authority")
 public class Authority implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String role;
+    private String authority;
 
     @Override
     public String getAuthority() {
-        return this.role;
+        return this.authority;
     }
 }
