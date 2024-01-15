@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -27,5 +29,14 @@ public class JobSeeker {
 
     @Size(max = 13, message = "Campo telefone não pode ser maior do que 13 characteres")
     private String phone;
+
+    @OneToOne
+    private Education education;
+
+    @OneToMany
+    private List<Skill> sklls;
+
+    @OneToMany
+    private List<Experience> experiences;
 
 }

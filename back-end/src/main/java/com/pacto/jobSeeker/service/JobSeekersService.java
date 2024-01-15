@@ -4,6 +4,7 @@ import com.pacto.authority.entity.BaseRoles;
 import com.pacto.authority.service.AuthorityService;
 import com.pacto.jobSeeker.entity.JobSeeker;
 import com.pacto.jobSeeker.repository.JobSeekerRepository;
+import com.pacto.token.service.TokenService;
 import com.pacto.userAccount.service.UserAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class JobSeekersService {
     private final JobSeekerRepository jobSeekerRepository;
     private final UserAccountService userAccountService;
     private final AuthorityService authorityService;
+    private final TokenService jwtService;
 
     public JobSeeker createNew(String email, String password) {
         var jobSeeker = new JobSeeker();
@@ -25,5 +27,15 @@ public class JobSeekersService {
         jobSeeker.setAbout("");
         jobSeeker.setPhone("");
         return jobSeekerRepository.save(jobSeeker);
+    }
+
+    public JobSeeker findByUsername(String username) throws Exception {
+        return jobSeekerRepository.findByUsername(username)
+                .orElseThrow(() -> new Exception("Job seeker not found"));
+    }
+
+    public JobSeeker getJobSeekerFromToken(String authToken) throws Exception {
+        String token = authToken.substring("Bearer ".length());
+        return findByUsername(jwtService.extractUserName(token));
     }
 }
