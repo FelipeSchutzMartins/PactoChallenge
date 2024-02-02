@@ -1,5 +1,6 @@
 package com.pacto.jobPosition.service;
 
+import com.pacto.candidate.service.CandidateService;
 import com.pacto.employer.service.EmployerService;
 import com.pacto.jobPosition.dto.request.JobPositionRequest;
 import com.pacto.jobPosition.dto.request.JobPositionUpdate;
@@ -7,10 +8,15 @@ import com.pacto.jobPosition.dto.response.JobPositionResponse;
 import com.pacto.jobPosition.entity.JobPosition;
 import com.pacto.jobPosition.mapper.JobPositionMapper;
 import com.pacto.jobPosition.repository.JobPositionRepository;
+import com.pacto.token.service.TokenService;
+import com.pacto.userAccount.service.UserAccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +24,7 @@ public class JobPositionService {
 
     private final EmployerService employerService;
     private final JobPositionRepository jobPositionRepository;
+    private final CandidateService candidateService;
 
     public JobPositionResponse create(JobPositionRequest request, String token) {
         var employer = employerService.getEmployerFromToken(token);
@@ -46,4 +53,17 @@ public class JobPositionService {
         jobPosition.setClosedOn(new Date());
         jobPositionRepository.delete(jobPosition);
     }
+
+    public Page<JobPositionResponse> list(Pageable pageable, String authToken) {
+        var employer = employerService.getEmployerFromToken(authToken);
+        return jobPositionRepository.findAllByEmployer(pageable, employer)
+                .map(JobPositionMapper::buildJobPositionResponse);
+    }
+
+    public Page<JobPositionResponse> listAvailable(Pageable pageable, String authToken) {
+        var candidate = candidateService.getCandidateFromToken(authToken);
+        return jobPositionRepository.findAllAvailable(candidate, pageable)
+                .map(JobPositionMapper::buildJobPositionResponse);
+    }
 }
+

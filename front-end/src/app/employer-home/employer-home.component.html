@@ -1,0 +1,51 @@
+<div class="list row">
+    <div class="col-md-12">
+      <pagination-controls
+        previousLabel="Prev"
+        nextLabel="Next"
+        (pageChange)="handlePageChange($event)"
+      ></pagination-controls>
+    </div>
+  
+    <div class="col-md-6">
+      <h4>Vagas cadastradas</h4>
+  
+      <!--<ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="
+            let position of positions | paginate : {
+                    itemsPerPage: pageSize,
+                    currentPage: page,
+                    totalItems: count
+                  };
+            let i = index
+          "
+          [class.active]="i == currentIndex"
+        >
+          {{ position }}
+        </li>
+      </ul> -->
+
+      
+      <div class="container mt-4">
+        <div class="card">
+          <div class="card-header">
+            <h5>Job List</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li *ngFor="let job of positions" class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6>{{ job.title }}</h6>
+                  <p class="mb-0">{{ job.company }}</p>
+                </div>
+                <button class="btn btn-primary btn-sm">Apply</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>

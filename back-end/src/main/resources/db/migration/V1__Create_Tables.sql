@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS pacto;
+
 CREATE TABLE IF NOT EXISTS user_account (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
@@ -11,19 +13,21 @@ CREATE TABLE IF NOT EXISTS authority (
 
 CREATE TABLE IF NOT EXISTS authority_user_account (
     id SERIAL PRIMARY KEY,
-    id_user_account INT REFERENCES user_account(id),
-    id_authority INT REFERENCES authority(id)
+    user_account_id INT REFERENCES user_account(id),
+    authority_id INT REFERENCES authority(id)
 );
 
 CREATE TABLE IF NOT EXISTS employer (
     id SERIAL PRIMARY KEY,
-    id_user_account INT REFERENCES user_account(id),
+    user_account_id INT REFERENCES user_account(id),
     company_name VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS job_seeker (
+CREATE TABLE IF NOT EXISTS candidate (
     id SERIAL PRIMARY KEY,
-    id_user_account INT REFERENCES user_account(id),
+    user_account_id INT REFERENCES user_account(id),
+    candidate_name VARCHAR(30) NOT NULL,
+    candidate_surname VARCHAR(30) NOT NULL,
     about VARCHAR(300) NOT NULL,
     phone VARCHAR(13) NOT NULL
 );
@@ -32,7 +36,7 @@ CREATE TABLE IF NOT EXISTS skill (
     id SERIAL PRIMARY KEY,
     skill VARCHAR(50) NOT NULL,
     years_using VARCHAR(10) not null,
-    id_job_seeker INT REFERENCES job_seeker(id)
+    candidate_id INT REFERENCES candidate(id)
 );
 
 CREATE TABLE IF NOT EXISTS experience (
@@ -43,7 +47,7 @@ CREATE TABLE IF NOT EXISTS experience (
     responsibilities VARCHAR(300),
     work_position VARCHAR(50) NOT NULL,
     currently_working BOOLEAN,
-    id_job_seeker INT REFERENCES job_seeker(id)
+    candidate_id INT REFERENCES candidate(id)
 );
 
 CREATE TABLE IF NOT EXISTS education (
@@ -54,14 +58,14 @@ CREATE TABLE IF NOT EXISTS education (
     institution VARCHAR(50) NOT NULL,
     kind_degree VARCHAR(50) NOT NULL,
     course_name VARCHAR(50),
-    id_job_seeker INT REFERENCES job_seeker(id)
+    candidate_id INT REFERENCES candidate(id)
 );
 
 CREATE TABLE IF NOT EXISTS job_position (
     id SERIAL PRIMARY KEY,
-    id_employer INT REFERENCES employer(id),
+    employer_id INT REFERENCES employer(id),
     position_title VARCHAR(50) NOT NULL,
-    about_job VARCHAR(500) NOT NULL,
+    about_job VARCHAR NOT NULL,
     posted_on DATE NOT NULL,
     work_from VARCHAR(50) NOT NULL,
     closed_on DATE
@@ -69,18 +73,18 @@ CREATE TABLE IF NOT EXISTS job_position (
 
 CREATE TABLE IF NOT EXISTS job_application (
     id SERIAL PRIMARY KEY,
-    id_job_seeker INT REFERENCES job_seeker(id),
-    id_position INT REFERENCES job_position(id),
+    candidate_id INT REFERENCES candidate(id),
+    position_id INT REFERENCES job_position(id),
     applied_on DATE NOT NULL,
     reason_closure VARCHAR(300)
 );
 
 CREATE TABLE IF NOT EXISTS application_feedback (
     id SERIAL PRIMARY KEY,
-    id_application INT REFERENCES job_application(id),
+    application_id INT REFERENCES job_application(id),
     send_on DATE NOT NULL,
     message VARCHAR(200) NOT NULL,
-    id_job_seeker INT REFERENCES job_seeker(id),
-    id_employer INT REFERENCES employer(id)
+    candidate_id INT REFERENCES candidate(id),
+    employer_id INT REFERENCES employer(id)
 );
 

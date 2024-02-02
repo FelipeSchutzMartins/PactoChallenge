@@ -31,8 +31,8 @@ public class JobPositionMapper {
                 .aboutJob(jobPosition.getAboutJob())
                 .positionTitle(jobPosition.getPositionTitle())
                 .workFrom(jobPosition.getWorkFrom())
-                .postedOn(jobPosition.getPostedOn())
-                .closedOn(jobPosition.getClosedOn())
+                .postedOn(jobPosition.getPostedOn().toString())
+                .closedOn(jobPosition.getClosedOn() == null ? null : jobPosition.getClosedOn().toString())
                 .build();
     }
 

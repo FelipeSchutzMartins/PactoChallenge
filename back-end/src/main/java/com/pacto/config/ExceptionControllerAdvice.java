@@ -2,6 +2,7 @@ package com.pacto.config;
 
 import com.pacto.exceptions.UsernameAlreadyExistsException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.Objects;
 
 @RestControllerAdvice
 class ExceptionControllerAdvice {
@@ -18,7 +20,10 @@ class ExceptionControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public AbstractMap<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         var errors = new HashMap<String, String>();
-        ex.getBindingResult().getFieldErrors().forEach(it -> errors.put(it.getField(), it.getDefaultMessage()));
+        var error = ex.getBindingResult().getFieldErrors().get(0);
+        if (error != null) {
+            errors.put("erro", error.getField() + ": " + error.getDefaultMessage());
+        }
         return errors;
     }
 
@@ -26,7 +31,15 @@ class ExceptionControllerAdvice {
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     public AbstractMap<String, String> handleUsernameAlreadyExistException(UsernameAlreadyExistsException ex) {
         var error = new HashMap<String, String>();
-        error.put("Username already registered", ex.getMessage());
+        error.put("erro", "E-mail já cadastrado");
+        return error;
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(BadCredentialsException.class)
+    public AbstractMap<String, String> handleBadCredentialsException(BadCredentialsException ex) {
+        var error = new HashMap<String, String>();
+        error.put("erro", "E-mail ou senha incorreto(s)");
         return error;
     }
 
@@ -34,7 +47,7 @@ class ExceptionControllerAdvice {
     @ExceptionHandler(UsernameNotFoundException.class)
     public AbstractMap<String, String> handleUsernameNotFoundException(UsernameAlreadyExistsException ex) {
         var error = new HashMap<String, String>();
-        error.put("Error: ", "E-mail de usuário não foi encontrado");
+        error.put("erro", "E-mail de usuário não foi encontrado");
         return error;
     }
 

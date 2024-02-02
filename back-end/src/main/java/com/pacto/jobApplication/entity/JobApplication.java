@@ -1,7 +1,7 @@
 package com.pacto.jobApplication.entity;
 
 import com.pacto.jobPosition.entity.JobPosition;
-import com.pacto.jobSeeker.entity.JobSeeker;
+import com.pacto.candidate.entity.Candidate;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,10 +23,9 @@ public class JobApplication {
     private Integer id;
 
     @ManyToOne
-    private JobSeeker jobSeeker;
+    private Candidate candidate;
 
     @ManyToOne
-    @JoinColumn(name = "id_position")
     private JobPosition position;
 
     private Date appliedOn;

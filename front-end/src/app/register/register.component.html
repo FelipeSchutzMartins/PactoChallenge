@@ -1,0 +1,14 @@
+<div class="col-md-12">
+  <mat-tab-group>
+    <mat-tab label="Registrar como candidato">
+      <div class="card card-container">
+        <app-register-form [registerAs]="'Candidate'"></app-register-form>
+      </div>
+    </mat-tab>
+    <mat-tab label="Registrar como empregador">
+      <div class="card card-container">
+        <app-register-form [registerAs]="'Employer'"></app-register-form>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

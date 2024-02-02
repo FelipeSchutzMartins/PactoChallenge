@@ -1,14 +1,13 @@
 package com.pacto.authority.entity;
 
 public enum BaseRoles {
-    ROLE_JOB_SEEKER("ROLE_JOB_SEEKER"),
-    ROLE_EMPLOYER("ROLE_EMPLOYER")
-    ;
+    ROLE_CANDIDATE("ROLE_CANDIDATE"),
+    ROLE_EMPLOYER("ROLE_EMPLOYER");
 
     private String value;
 
-    BaseRoles(String roleJobSeeker) {
-        this.value = roleJobSeeker;
+    BaseRoles(String role) {
+        this.value = role;
     }
 
     public String getValue() {

@@ -2,7 +2,7 @@ package com.pacto.feedback.entity;
 
 import com.pacto.employer.entity.Employer;
 import com.pacto.jobApplication.entity.JobApplication;
-import com.pacto.jobSeeker.entity.JobSeeker;
+import com.pacto.candidate.entity.Candidate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -32,7 +32,7 @@ public class Feedback {
     private String message;
 
     @ManyToOne
-    private JobSeeker jobSeeker;
+    private Candidate candidate;
 
     @ManyToOne
     private Employer employer;

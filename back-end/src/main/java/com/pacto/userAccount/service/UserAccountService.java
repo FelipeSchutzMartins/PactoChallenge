@@ -19,7 +19,7 @@ public class UserAccountService {
 
     public UserAccount createNew(String username, String password, List<Authority> roles) {
         if (userAccountRepository.findByUsername(username).isPresent()) {
-            throw new UsernameAlreadyExistsException(username);
+            throw new UsernameAlreadyExistsException();
         }
         return UserAccountMapper.userAccount(username, PasswordUtils.encodePassword(password), roles);
     }

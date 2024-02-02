@@ -6,9 +6,8 @@ import com.pacto.jobApplication.dto.response.JobApplicationResponse;
 import com.pacto.jobApplication.entity.JobApplication;
 import com.pacto.jobApplication.mapper.JobApplicationMapper;
 import com.pacto.jobApplication.repository.JobApplicationRepository;
-import com.pacto.jobPosition.entity.JobPosition;
 import com.pacto.jobPosition.service.JobPositionService;
-import com.pacto.jobSeeker.service.JobSeekersService;
+import com.pacto.candidate.service.CandidateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ import java.util.Date;
 public class JobApplicationService {
 
     private final JobApplicationRepository jobApplicationRepository;
-    private final JobSeekersService jobSeekersService;
+    private final CandidateService candidateService;
     private final JobPositionService jobPositionService;
 
     public JobApplicationResponse closeApplication(CloseApplicationRequest request) throws Exception {
@@ -30,12 +29,12 @@ public class JobApplicationService {
     }
 
     public JobApplicationResponse apply(ApplyRequest request, String authToken) throws Exception {
-        var jobSeeker = jobSeekersService.getJobSeekerFromToken(authToken);
+        var candidate = candidateService.getCandidateFromToken(authToken);
         var position = jobPositionService.findById(request.getPositionId());
-        if (jobApplicationRepository.findByJobSeekerAndAndPosition(jobSeeker, position).isPresent())  {
+        if (jobApplicationRepository.findByCandidateAndAndPosition(candidate, position).isPresent())  {
             throw new Exception("Can't apply for the same position twice");
         }
-        var jobApplication = JobApplicationMapper.buildNewApplication(new Date(), jobSeeker, position);
+        var jobApplication = JobApplicationMapper.buildNewApplication(new Date(), candidate, position);
         jobApplicationRepository.save(jobApplication);
         return JobApplicationMapper.buildJobApplicationResponse(jobApplication);
     }

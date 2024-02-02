@@ -1,16 +1,13 @@
 package com.pacto.auth.controller;
 
+import com.pacto.auth.dto.request.SignUpCandidateRequest;
+import com.pacto.auth.dto.request.SignUpEmployerRequest;
 import com.pacto.auth.dto.request.SigninRequest;
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.pacto.auth.service.AuthenticationService;
-import com.pacto.auth.dto.request.SignUpRequest;
 import com.pacto.auth.dto.response.JwtAuthenticationResponse;
-
+import com.pacto.auth.service.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -21,13 +18,13 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signupAsEmployer")
-    public JwtAuthenticationResponse signupAsEmployer(@Valid @RequestBody SignUpRequest request) {
+    public JwtAuthenticationResponse signupAsEmployer(@Valid @RequestBody SignUpEmployerRequest request) {
         return authenticationService.signupAsEmployer(request);
     }
 
-    @PostMapping("/signupAsJobSeeker")
-    public JwtAuthenticationResponse signupAsJobSeeker(@Valid @RequestBody SignUpRequest request) {
-        return authenticationService.signupAsJobSeeker(request);
+    @PostMapping("/signupAsCandidate")
+    public JwtAuthenticationResponse signupAsCandidate(@Valid @RequestBody SignUpCandidateRequest request) {
+        return authenticationService.signupAsCandidate(request);
     }
 
     @PostMapping("/signin")

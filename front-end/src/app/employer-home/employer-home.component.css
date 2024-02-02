@@ -1,0 +1,21 @@
+.list {
+    color:#007bff;
+}
+
+.card {
+    border-radius: 8px;
+  }
+  
+  .list-group-item {
+    border: none;
+  }
+  
+  .btn-primary {
+    background-color: #0073b1;
+    border-color: #0073b1;
+  }
+  
+  .btn-primary:hover {
+    background-color: #005686;
+    border-color: #005686;
+  }

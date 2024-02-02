@@ -23,12 +23,11 @@ public class JobPosition {
     private Integer id;
 
     @ManyToOne
+
     private Employer employer;
 
     @Size(max = 50, message = "Limite máximo de caracteres (50) atingido")
     private String positionTitle;
-
-    @Size(max = 50, message = "Limite máximo de caracteres (500) atingido")
     private String aboutJob;
 
     private Date postedOn;

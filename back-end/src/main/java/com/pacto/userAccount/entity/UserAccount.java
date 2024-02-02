@@ -27,8 +27,8 @@ public class UserAccount {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "authority_user_account",
-            joinColumns = @JoinColumn(name = "id_user_account"),
-            inverseJoinColumns = @JoinColumn(name = "id_authority"))
+            joinColumns = @JoinColumn(name = "user_account_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
     private List<Authority> authorities;
 
 }

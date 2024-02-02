@@ -16,7 +16,7 @@ public class JobApplicationController {
 
     private final JobApplicationService jobApplicationService;
 
-    @Secured("ROLE_JOB_SEEKER")
+    @Secured("ROLE_CANDIDATE")
     @PostMapping("/apply")
     public JobApplicationResponse apply(
             @Valid @RequestBody ApplyRequest request,
@@ -25,7 +25,7 @@ public class JobApplicationController {
         return jobApplicationService.apply(request, authToken);
     }
 
-    @Secured("ROLE_JOB_SEEKER")
+    @Secured("ROLE_CANDIDATE")
     @PostMapping("/giveup")
     public JobApplicationResponse apply(
             @Valid @RequestBody CloseApplicationRequest request

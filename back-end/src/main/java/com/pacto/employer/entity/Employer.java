@@ -21,10 +21,10 @@ public class Employer {
     private Integer id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_user_account", referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id")
     private UserAccount userAccount;
 
-    @Size(max = 200, message = "Nome da empresa não pode ser maior do que 20 characteres")
+    @Size(max = 20, message = "Nome da empresa não pode ser maior do que 20 characteres")
     private String companyName;
 
 }

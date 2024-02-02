@@ -13,6 +13,6 @@ public class JobPositionResponse {
     private String positionTitle;
     private String aboutJob;
     private WorkFrom workFrom;
-    private Date postedOn;
-    private Date closedOn;
+    private String postedOn;
+    private String closedOn;
 }

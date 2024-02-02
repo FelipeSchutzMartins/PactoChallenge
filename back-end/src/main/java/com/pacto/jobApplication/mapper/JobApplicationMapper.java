@@ -3,7 +3,7 @@ package com.pacto.jobApplication.mapper;
 import com.pacto.jobApplication.dto.response.JobApplicationResponse;
 import com.pacto.jobApplication.entity.JobApplication;
 import com.pacto.jobPosition.entity.JobPosition;
-import com.pacto.jobSeeker.entity.JobSeeker;
+import com.pacto.candidate.entity.Candidate;
 
 import java.util.Date;
 
@@ -17,12 +17,12 @@ public class JobApplicationMapper {
 
     public static JobApplication buildNewApplication(
             Date appliedOn,
-            JobSeeker jobSeeker,
+            Candidate candidate,
             JobPosition position
     ) {
         return JobApplication.builder()
                 .appliedOn(appliedOn)
-                .jobSeeker(jobSeeker)
+                .candidate(candidate)
                 .position(position)
                 .build();
     }

@@ -1,5 +1,6 @@
 package com.pacto.employer.service;
 
+import com.pacto.auth.dto.request.SignUpEmployerRequest;
 import com.pacto.authority.entity.BaseRoles;
 import com.pacto.authority.service.AuthorityService;
 import com.pacto.employer.entity.Employer;
@@ -24,11 +25,12 @@ public class EmployerService {
     private final AuthorityService authorityService;
     private final TokenService jwtService;
 
-    public Employer createNew(String email, String password) {
+    public Employer createNew(SignUpEmployerRequest request) {
         var employer = new Employer();
         var authority = authorityService.findByRole(BaseRoles.ROLE_EMPLOYER.getValue());
-        employer.setUserAccount(userAccountService.createNew(email, password, List.of(authority)));
-        employer.setCompanyName("");
+        employer.setUserAccount(userAccountService.createNew(
+                request.getEmail(), request.getPassword(), List.of(authority)));
+        employer.setCompanyName(request.getCompanyName());
         return employerRepository.save(employer);
     }
 
@@ -38,7 +40,7 @@ public class EmployerService {
     }
 
     public Employer getEmployerFromToken(String authToken) {
-        String token = authToken.substring("Bearer ".length());
-        return findByUsername(jwtService.extractUserName(token));
+        return findByUsername(jwtService.extractUserName(authToken));
     }
+
 }

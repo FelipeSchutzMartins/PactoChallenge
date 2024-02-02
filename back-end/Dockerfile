@@ -8,4 +8,4 @@ COPY src /pacto-back/src
 RUN mvn -f /pacto-back/pom.xml clean package
 
 EXPOSE 8080
-CMD ["java","-jar","/pacto-back/target/pacto-1.war"]
+CMD ["java","-jar", "-Dspring.profiles.active=dev" , "/pacto-back/target/pacto-1.war"]
